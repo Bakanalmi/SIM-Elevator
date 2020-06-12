@@ -1,0 +1,13 @@
+simulation:
+    # 0: totes a l'hora; 1: només alternant; 2: només l'express
+    strategy: 0
+
+    # Interval ininterromput de simulació
+    time:
+        from: 7 # hora entera a la que obre l'edifici
+        to: 20  # hora entera a la que tanca l'edifici
+    
+    # Sobre com es l'entorn on simular la/les estrategia/es
+    environment:
+        n_elevator: 4   # total d'ascensors
+        n_floors: 12    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
