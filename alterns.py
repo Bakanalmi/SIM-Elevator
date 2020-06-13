@@ -1,5 +1,4 @@
-from objects import elevator, factory
-from resources import floor as obj_floor
+from objects import elevator, factory, floor as obj_floor
 import simpy
 
 def setup(values):
@@ -22,15 +21,7 @@ def setup(values):
 
     # Creació dels ascensors i assignació dels pisos disponibles
     for n_elev in range(0, values.get('environment').get('n_elevator')):
-        elev = elevator.Elevator(env, n_elev)
-
-        if 'elevators' in values:
-            if 'velocity' in values.get('elevators'):
-                elev.velocity = values.get('elevators').get('velocity')
-            if 'waiting' in values.get('elevators'):
-                elev.waiting = values.get('elevators').get('waiting')
-            if 'capacity' in values.get('elevators'):
-                elev.capacity = values.get('elevators').get('capacity')
+        elev = elevator.Elevator(env, values, n_elev)
 
         if n_elev%2 == 0:
             elev.set_floors(floors_parell)

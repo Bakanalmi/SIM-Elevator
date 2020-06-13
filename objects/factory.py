@@ -1,6 +1,6 @@
 from numpy import random
 from entities import token
-from resources import floor
+from objects import floor
 import simpy, math
 
 class Token:
@@ -9,7 +9,8 @@ class Token:
         self.env = env
         self.entry = entry
         self.values = values
-        self.MAX = values.get('environment').get('n_floors') * values.get('environment').get('cap_floor')
+        self.MAX = (values.get('environment').get('n_floors') * values.get('environment').get('cap_floor'))
+        print("TOTAL ", self.MAX)
 
         random.seed(values.get('seed'))
 
