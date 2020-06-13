@@ -1,9 +1,10 @@
-from objects import elevator
+from objects import elevator, factory
 from resources import floor as obj_floor
 import simpy
 
 def setup(values):
     env = simpy.Environment()
+    creator = None
     
     floors_parell = {}
     floors_senars = {}
@@ -14,6 +15,10 @@ def setup(values):
             floors_parell[n_floor] = floor
         if n_floor == 0 or n_floor%2 != 0:
             floors_senars[n_floor] = floor
+
+        if n_floor == 0:
+            creator = factory.Token(env, floor, values)
+            env.process(creator.new_token())
 
     # Creació dels ascensors i assignació dels pisos disponibles
     for n_elev in range(0, values.get('environment').get('n_elevator')):

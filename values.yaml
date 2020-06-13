@@ -7,6 +7,7 @@ simulation:
     time:
         from: 7 # hora entera a la que obre l'edifici
         to: 20  # hora entera a la que tanca l'edifici
+        work: 8 # temps en hores d'una jornada laboral
     
     # Sobre com es l'entorn on simular la/les estrategia/es
     environment:
@@ -24,3 +25,11 @@ simulation:
     stairs:
         velocity: 30    # temps en segons que triga qualsevol individu en desplaçar-se entre pisos consecutius
         capacity: 50    # capcitat total de persones que poden pujar les escales simultaneament
+        range: 0.5
+
+    arrival:
+        loc: 10
+        scale: 5
+        size: 1
+        upper: 60
+        lower: 10

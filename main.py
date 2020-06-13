@@ -2,7 +2,7 @@ from util import parser
 from objects import elevator
 import alterns as alt_strategy
 import express as xps_strategy
-import simpy, sys
+import simpy, sys, random
 
 values_path = './values.yaml'
 if len(sys.argv) > 1:
@@ -15,6 +15,7 @@ def main():
     lapse = simulation.get('time')
     strategy = simulation.get('strategy')
     time = 3600 * (lapse.get('to')-lapse.get('from'))
+    random.seed(simulation.get('seed'))
     
     print("Setting up alternating environment.")
     if strategy <= 1:
