@@ -57,11 +57,18 @@ class Elevator:
         next_floor = -1
         if self.upper:
             next_floor = len(self.floors)*2
-
+        
+        got = False
         for n, floor in self.floors.items():
             if self.upper and floor.floor < next_floor and floor.floor > self.current:
                 next_floor = floor.floor
+                got = True
             elif floor.floor > next_floor and floor.floor < self.current:
                 next_floor = floor.floor
+                got = True
+
+        if not got:
+            self.upper = not self.upper
+            next_floor = self.closest_floor()
 
         return next_floor
