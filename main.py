@@ -23,11 +23,11 @@ def main():
         print("Running alternating strategy")
         alterns.run(until=time)
 
-    # print("Setting up express environment.")
-    # if strategy < 1 or strategy == 2:
-    #     express = xps_strategy.setup(simulation)
-    #     print("Running express strategy")
-    #     express.run(until=time)
+    print("Setting up express environment.")
+    if strategy < 1 or strategy == 2:
+        express = xps_strategy.setup(simulation)
+        print("Running express strategy")
+        express.run(until=time)
 
 if __name__ == "__main__":
     main()
