@@ -16,14 +16,17 @@ def main():
     strategy = simulation.get('strategy')
     time = 3600 * (lapse.get('to')-lapse.get('from'))
     
-    print("Setting up environments...")
+    print("Setting up alternating environment.")
     if strategy <= 1:
         alterns = alt_strategy.setup(simulation)
+        print("Running alternating strategy")
         alterns.run(until=time)
 
-    if strategy < 1 or strategy == 2:
-        express = xps_strategy.setup(simulation)
-        express.run(until=time)
+    # print("Setting up express environment.")
+    # if strategy < 1 or strategy == 2:
+    #     express = xps_strategy.setup(simulation)
+    #     print("Running express strategy")
+    #     express.run(until=time)
 
 if __name__ == "__main__":
     main()

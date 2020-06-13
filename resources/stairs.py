@@ -1,6 +1,7 @@
 import simpy
 
 class Stairs:
-    velocity: int
-    capacity: int
-    size: int
+
+    def __init__(self):
+        self.velocity = 30
+        self.capacity = 50
