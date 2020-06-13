@@ -2,12 +2,19 @@ simulation:
     # 0: totes a l'hora; 1: només alternant; 2: només l'express
     strategy: 0
 
-    # Interval ininterromput de simulació
+    # Interval ininterromput de simulació [ 0 <= hora < 24]
     time:
         from: 7 # hora entera a la que obre l'edifici
         to: 20  # hora entera a la que tanca l'edifici
     
     # Sobre com es l'entorn on simular la/les estrategia/es
     environment:
-        n_elevator: 4   # total d'ascensors
+        n_elevator: 4       # total d'ascensors
         n_floors: 12    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
+        cap_floor: 120  # capacitat de persones per planta
+
+    elevators:
+        capacity: 12    # capacitat d'un ascensor estandard
+        velocitat: 10   # temps en segons que triga un ascensor normal entre dues plantes consecutives
+        express: 5      # temps en segons que triga l'ascensor express entre dues plantes consecutives
+        waiting: 15     # temps d'espera a cada planta

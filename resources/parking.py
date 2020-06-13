@@ -1,6 +1,5 @@
 import simpy
 
-class Stairs:
-    velocity: int
+class Parking:
     capacity: int
     size: int
