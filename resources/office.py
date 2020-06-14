@@ -15,6 +15,7 @@ class Office:
 
         yield self.env.timeout(self.working_time)
         token.destination = 0
+        token.latest = self.env.now
         
         self.floor.entering(token)
         self.res.release(request)
