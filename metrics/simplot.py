@@ -14,10 +14,14 @@ class Metrics:
         self.arrival_values = []
         self.waiting_values = []
 
+        n_elev = values.get('environment').get('n_elevator')
+        self.consum_energetic = [[] for _ in range(n_elev)]
+
         self.figure = plt.figure()
         self.dashboard = self.figure.add_subplot(111)
-        self.arribades = self.figure.add_subplot(211)
-        self.esperes = self.figure.add_subplot(212)
+        self.arribades = self.figure.add_subplot(221)
+        self.esperes = self.figure.add_subplot(222)
+        self.consum = self.figure.add_subplot(212)
 
     def gather(self):
         while True:
@@ -40,20 +44,24 @@ class Metrics:
             yield self.env.timeout(self.timeout)
 
     def build(self):
+        self.dashboard.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
+
         self.arribades.set_title('Arribades')
-        #self.arribades.loglog(self.gather_times, self.arrival_values)
+        self.arribades.bar(self.gather_times, self.arrival_values)
 
         self.esperes.set_title('Temps espera')
-        #self.esperes.loglog(self.gather_times, self.waiting_values)
-        #plt.subplot(133)
-        #plt.bar(self.gather_times, self.arrival_values)
+        self.esperes.bar(self.gather_times, self.waiting_values)
+
+        self.consum.set_title('Consum energetic')
+        self.consum.plot(self.gather_times, self.waiting_values)
+        self.consum.plot(self.gather_times, self.arrival_values)
         
         #plt.plot(self.gather_times, self.arrival_values)
         plt.suptitle(self.title)
 
     def show(self):
         self.build()
-        self.figure.show()
+        plt.show()
 
     def waiting(self, time):
         self.wait_time.append(abs(time))
