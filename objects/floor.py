@@ -1,17 +1,24 @@
+from resources import stairs, office
 import simpy
 
 class Floor:
 
-    def __init__(self, env, floor):
+    def __init__(self, env, values, floor):
         self.env = env
         self.floor = floor  # Pis al qual s'ubica
 
         self.elevators = {}     # Ascensors els quals arriben al pis
-        self.working = []    # Treballadors treballant a l'oficina 
         self.waiting = []       # Treballadors esperant algun ascensor al pis
+        self.home = None
 
+        if self.floor > 0:
+            self.office = office.Office(env, values, self)
+        
     def set_elevator(self, ident, elevator):
         self.elevators[ident] = elevator
+
+    def set_stairs(self, stairs):
+        self.stairs = stairs
 
     def arrival(self, elevator_id):
         yield self.env.timeout(2) # obertura de les portes
@@ -36,12 +43,17 @@ class Floor:
         return waiting
 
     def entering(self, token):
-        print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.office_floor))
-        self.waiting.append(token)
+        print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.destination))
+        if token.walker:
+            self.env.process(self.stairs.request(token))
+        else:
+            self.waiting.append(token)
 
     def set_worker(self, token):
-        print('[%d]\tToken %d starts working on floor %d'  % (self.env.now, token.id, token.office_floor))
-        self.working.append(token)
+        self.env.process(self.office.request(token))
+        token.destination = 0
+        self.entering(token)
 
     def leaving(self, token):
-        print('[%d]\tToken %d is leaving at home'  % (self.env.now, token.id))
+        if self.floor == 0 and self.home != None:
+            self.home.delete_token(token)

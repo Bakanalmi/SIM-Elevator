@@ -25,11 +25,10 @@ simulation:
     stairs:
         velocity: 30    # temps en segons que triga qualsevol individu en desplaçar-se entre pisos consecutius
         capacity: 50    # capcitat total de persones que poden pujar les escales simultaneament
-        range: 0.5
+        range: 0.75     # essent la probabilitat d'agafar les escales un distribució entre 0. i 1., a partir de quing rang es considera que l'agafa
 
     arrival:
-        loc: 10
-        scale: 5
-        size: 1
-        upper: 60
-        lower: 10
+        loc: 10         # mitja d'arribades en un instant de temps
+        scale: 5        # variança en les arribades
+        upper: 60       # temps en segons maxim entre arribades
+        lower: 10       # temps en segons minim entre arribades

@@ -1,5 +1,5 @@
 from numpy import random
-import simpy, math
+import simpy, math, time
 
 class Persona:
     def __init__(self, env, values, ident):
@@ -12,7 +12,7 @@ class Persona:
 
         self.office_floor = math.ceil(floor)
 
-        choose_stairs = random.exponential()
+        choose_stairs = random.exponential() % 1
         self.walker = values.get('environment').get('stairs') and choose_stairs > values.get('stairs').get('range')
 
         self.current = 0

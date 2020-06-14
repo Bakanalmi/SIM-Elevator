@@ -1,5 +1,6 @@
 from util import parser
 from objects import elevator
+from metrics import simplot
 import alterns as alt_strategy
 import express as xps_strategy
 import simpy, sys, random
@@ -16,18 +17,22 @@ def main():
     strategy = simulation.get('strategy')
     time = 3600 * (lapse.get('to')-lapse.get('from'))
     random.seed(simulation.get('seed'))
-    
-    print("Setting up alternating environment.")
+
     if strategy <= 1:
+        print("Setting up alternating environment.")
+        plot = simplot.Metrics("Alternating elevators strategy")
         alterns = alt_strategy.setup(simulation)
         print("Running alternating strategy")
         alterns.run(until=time)
+        plot.show()
 
-    print("Setting up express environment.")
     if strategy < 1 or strategy == 2:
+        print("Setting up express environment.")
+        plot = simplot.Metrics("Express elevator strategy")
         express = xps_strategy.setup(simulation)
         print("Running express strategy")
         express.run(until=time)
+        plot.show()
 
 if __name__ == "__main__":
     main()
