@@ -25,8 +25,7 @@ class Elevator:
     def run(self):
         while True:
             if not self.sleep:
-                if len(self.over) > 0:
-                    yield self.env.process(self.leave_elevator())
+                yield self.env.process(self.leave_elevator())
                 
                 yield self.env.process(self.free())
                 yield self.env.process(self.moving())
@@ -41,6 +40,7 @@ class Elevator:
             self.over.append(token)
             return True
         
+        self.env.process(self.moving())
         return False
 
     def free(self):
@@ -51,6 +51,7 @@ class Elevator:
 
     def moving(self):
         next_floor, got = self.closest_floor()
+        #while not got:
         if got:
             self.generator.on()
             print('[%d]\tElevator %d goes from %d to %d' % (self.env.now, self.id, self.current, next_floor))
