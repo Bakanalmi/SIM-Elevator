@@ -24,7 +24,6 @@ class Elevator:
 
     def run(self):
         while True:
-            time.sleep(1)
             if not self.sleep:
                 yield self.env.process(self.discharge())
                 
