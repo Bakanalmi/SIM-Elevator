@@ -13,14 +13,14 @@ simulation:
     environment:
         n_elevator: 4   # total d'ascensors
         n_floors: 12    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
-        cap_floor: 120  # capacitat de persones per planta
+        cap_floor: 90  # capacitat de persones per planta
         stairs: True    # L'edifici te escales
 
     elevators:
         capacity: 12    # capacitat d'un ascensor estandard
         velocity: 10    # temps en segons que triga un ascensor normal entre dues plantes consecutives
         express: 5      # temps en segons que triga l'ascensor express entre dues plantes consecutives
-        x_requ: 200
+        x_requ: 200     # energia requerida per l'ascensor express
         waiting: 15     # temps d'espera a cada planta
         required: 150   # energia requerida per l'ascensor a cada unitat de temps per persona a desplaçar
 

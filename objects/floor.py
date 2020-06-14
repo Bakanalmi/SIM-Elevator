@@ -31,7 +31,6 @@ class Floor:
             if not succeed:
                 break
             
-            print("ELEV DOES STOP: ", token.destination, " VERERDICT: ", elev.does_stop(token.destination))
             if elev.does_stop(token.destination):
                 succeed = elev.charge(token)
                 if succeed:
