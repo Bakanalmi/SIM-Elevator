@@ -23,9 +23,11 @@ def setup(values):
 
         if n_floor == 0:
             creator = factory.Token(env, floor, values)
-            floor.home = creator
-            plot.arrival_source = floor
+            #floor.home = creator
             env.process(creator.new_token())
+
+    plot.set_resource_floors(floors_parell)
+    plot.set_resource_floors(floors_senars)
 
     # Creació de l'escala
     stairs = res_stairs.Stairs(env, values)
@@ -35,7 +37,7 @@ def setup(values):
     # Creació dels ascensors i assignació dels pisos disponibles
     for n_elev in range(0, values.get('environment').get('n_elevator')):
         elev = elevator.Elevator(env, values, n_elev)
-
+        plot.set_resource_elevators({n_elev: elev})
         if n_elev%2 == 0:
             elev.set_floors(floors_parell)
             for key in floors_parell:

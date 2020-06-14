@@ -108,10 +108,11 @@ class Elevator:
         for token in self.over:
             if token.destination == self.current:
                 self.over.remove(token)
-                if self.current == 0:
-                    floor.leaving(token)
-                else:
-                    floor.set_worker(token)
+                floor.entering(token)
+                #if self.current == 0:
+                #    floor.leaving(token)
+                #else:
+                #    floor.set_worker(token)
 
         yield self.env.timeout(self.waiting)
         

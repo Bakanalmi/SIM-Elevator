@@ -14,4 +14,7 @@ class Office:
         yield request
 
         yield self.env.timeout(self.working_time)
+        token.destination = 0
+        
+        self.floor.entering(token)
         self.res.release(request)

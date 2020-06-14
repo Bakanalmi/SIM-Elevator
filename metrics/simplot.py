@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import time
 
 class Metrics:
     def __init__(self, env, values, title):
@@ -7,56 +8,75 @@ class Metrics:
         self.timeout = values.get('metrics')
         self.title = title
 
-        self.wait_time = []
-        self.gather_times = []
+        self.elevators = {}
+        self.floors = {}
+        self.gather_lapses = []
 
-        self.arrival_source = None
-        self.arrival_values = []
+        self.ocupation_floor = {}
+        self.consumption_elev = {}
+
         self.waiting_values = []
-
-        n_elev = values.get('environment').get('n_elevator')
-        self.consum_energetic = [[] for _ in range(n_elev)]
+        self.waiting_lapse_value = []
 
         self.figure = plt.figure()
-        self.dashboard = self.figure.add_subplot(111)
-        self.arribades = self.figure.add_subplot(221)
-        self.esperes = self.figure.add_subplot(222)
-        self.consum = self.figure.add_subplot(212)
 
     def gather(self):
         while True:
             now = self.env.now/3600 + self.start
-            self.gather_times.append(now)
+            self.gather_lapses.append(now)
 
-            if self.arrival_source != None:
-                howmany = len(self.arrival_source.waiting)
-                self.arrival_values.append(howmany)
-            else:
-                self.arrival_values.append(0)
+            # ocupació pisos
+            for key, floor in self.floors.items():
+                howmany = len(floor.waiting)
+                if key not in self.ocupation_floor:
+                    self.ocupation_floor[key] = [howmany]
+                else:
+                    self.ocupation_floor[key].append(howmany)
 
-            if len(self.wait_time) > 0:
-                wait_avg = sum(self.wait_time) / len(self.wait_time) 
+            # Temps espera
+            if len(self.waiting_lapse_value) > 0:
+                wait_avg = sum(self.waiting_lapse_value) / len(self.waiting_lapse_value) 
                 self.waiting_values.append(wait_avg)
-                self.wait_time.clear()
+                self.waiting_lapse_value.clear()
             else:
                 self.waiting_values.append(0)
+
+            # consum energetic
+            for key, elev in self.elevators.items():
+                cons = elev.generator.consumed
+                if key not in self.consumption_elev:
+                    self.consumption_elev[key] = [cons]
+                else:
+                    self.consumption_elev[key].append(cons)
 
             yield self.env.timeout(self.timeout)
 
     def build(self):
-        self.dashboard.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
+        dashboard = self.figure.add_subplot(1, 1, 1)
+        dashboard.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
 
-        self.arribades.set_title('Arribades')
-        self.arribades.bar(self.gather_times, self.arrival_values)
+        arribades = self.figure.add_subplot(3, 2, 1)
 
-        self.esperes.set_title('Temps espera')
-        self.esperes.bar(self.gather_times, self.waiting_values)
-
-        self.consum.set_title('Consum energetic')
-        self.consum.plot(self.gather_times, self.waiting_values)
-        self.consum.plot(self.gather_times, self.arrival_values)
+        ocupacio_global = self.figure.add_subplot(3, 2, 2)
         
-        #plt.plot(self.gather_times, self.arrival_values)
+        esperes = self.figure.add_subplot(3, 1, 2)
+        consum = self.figure.add_subplot(3, 1, 3) # divisió cap  munt, divisió esquerra, casella horitzontal
+
+        arribades.set_title('Ocupació pl. baixa')
+        arribades.bar(self.gather_lapses, self.ocupation_floor[0])
+
+        ocupacio_global.set_title('Ocupació pls. sups.')
+        for key, floor in self.ocupation_floor.items():
+            if key > 0:
+                ocupacio_global.plot(self.gather_lapses, floor)
+
+        esperes.set_title('Temps espera')
+        esperes.bar(self.gather_lapses, self.waiting_values)
+
+        consum.set_title('Consum energetic')
+        for key, cons_elev in self.consumption_elev.items():
+            consum.plot(self.gather_lapses, cons_elev)
+    
         plt.suptitle(self.title)
 
     def show(self):
@@ -64,4 +84,12 @@ class Metrics:
         plt.show()
 
     def waiting(self, time):
-        self.wait_time.append(abs(time))
+        self.waiting_lapse_value.append(abs(time))
+
+    def set_resource_elevators(self, elevators):
+        for key, elev in elevators.items():
+            self.elevators[key] = elev
+
+    def set_resource_floors(self, floors):
+        for key, floor in floors.items():
+            self.floors[key] = floor

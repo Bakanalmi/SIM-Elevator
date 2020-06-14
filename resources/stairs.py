@@ -15,8 +15,10 @@ class Stairs:
 
         timeout = abs(token.current - token.destination) * self.velocity
         yield self.env.timeout(timeout)
+        
+        floor = self.floors[token.destination]
+        floor.entering(token)
         self.res.release(request)
-        token.current = token.destination
 
     def set_floors(self, floors):
         for key, floor in floors.items():

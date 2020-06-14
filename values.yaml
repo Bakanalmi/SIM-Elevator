@@ -1,6 +1,6 @@
 simulation:
     # 0: totes a l'hora; 1: només alternant; 2: només l'express
-    strategy: 1
+    strategy: 0
     seed: 12345
 
     # Interval ininterromput de simulació [ 0 <= hora < 24]
@@ -20,6 +20,7 @@ simulation:
         capacity: 12    # capacitat d'un ascensor estandard
         velocity: 10    # temps en segons que triga un ascensor normal entre dues plantes consecutives
         express: 5      # temps en segons que triga l'ascensor express entre dues plantes consecutives
+        x_requ: 200
         waiting: 15     # temps d'espera a cada planta
         required: 150   # energia requerida per l'ascensor a cada unitat de temps per persona a desplaçar
 

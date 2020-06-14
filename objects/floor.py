@@ -30,7 +30,8 @@ class Floor:
         for token in self.waiting:
             if not succeed:
                 break
-
+            
+            print("ELEV DOES STOP: ", token.destination, " VERERDICT: ", elev.does_stop(token.destination))
             if elev.does_stop(token.destination):
                 succeed = elev.charge(token)
                 if succeed:
@@ -45,21 +46,25 @@ class Floor:
         return waiting
 
     def entering(self, token):
-        print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.destination))
-        if token.walker:
-            self.env.process(self.stairs.request(token))
+        token.current = self.floor
+        if token.destination == self.floor:
+            if self.metrics != None:
+                arrival = self.env.now
+                entry = token.latest
+                self.metrics.waiting(arrival-entry)
+
+            print('[%d]\tToken %d arrived at floor %d'  % (self.env.now, token.id, self.floor))
+            if self.floor == 0:
+                self.leaving(token)
+            else:
+                self.env.process(self.office.request(token))
+
         else:
-            self.waiting.append(token)
-
-    def set_worker(self, token):
-        if self.metrics != None:
-            arrival = self.env.now
-            entry = token.entry_time
-            self.metrics.waiting(arrival-entry)
-
-        self.env.process(self.office.request(token))
-        token.destination = 0
-        self.entering(token)
+            print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.destination))
+            if token.walker:
+                self.env.process(self.stairs.request(token))
+            else:
+                self.waiting.append(token)
 
     def leaving(self, token):
         if self.floor == 0 and self.home != None:

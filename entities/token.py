@@ -4,7 +4,7 @@ import simpy, math, time
 class Persona:
     def __init__(self, env, values, ident):
         self.env = env
-        self.entry_time = env.now
+        self.latest = 0
         self.id = ident
 
         upper = values.get('environment').get('n_floors')

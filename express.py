@@ -8,11 +8,9 @@ def setup_xpress(env, values, all_floors):
     elev = elevator.Elevator(env, values, xpress_id)
     elev.set_floors(all_floors)
 
-    if 'elevators' in values: # overriding values
-        if 'express' in values.get('elevators'):
-            elev.velocity = values.get('elevators').get('express')
-
-        elev.capacity = elev.capacity/2
+    elev.capacity = elev.capacity/2
+    elev.velocity = values.get('elevators').get('express')
+    elev.generator.required = values.get('elevators').get('x_requ')
     
     for key in all_floors:
             all_floors[key].set_elevator(xpress_id, elev)
@@ -32,14 +30,17 @@ def setup(values):
         if n_floor == 0:
             creator = factory.Token(env, floor, values)
             floor.home = creator
-            plot.arrival_source = floor
             env.process(creator.new_token())
+
+    plot.set_resource_floors(all_floors)
 
     stairs = res_stairs.Stairs(env, values)
     stairs.set_floors(all_floors)
 
     for n_elev in range(0, values.get('environment').get('n_elevator')-1):
         elev = elevator.Elevator(env, values, n_elev)
+        plot.set_resource_elevators({n_elev: elev})
+
         elev.set_floors(all_floors)
         for key in all_floors:
             all_floors[key].set_elevator(n_elev, elev)
