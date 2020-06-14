@@ -1,5 +1,5 @@
 from objects import generator
-import simpy, math
+import simpy, math, time
 
 class Elevator:
 
@@ -24,6 +24,7 @@ class Elevator:
 
     def run(self):
         while True:
+            time.sleep(1)
             if not self.sleep:
                 yield self.env.process(self.discharge())
                 
