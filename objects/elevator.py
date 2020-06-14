@@ -25,7 +25,7 @@ class Elevator:
     def run(self):
         while True:
             if not self.sleep:
-                yield self.env.process(self.leave_elevator())
+                yield self.env.process(self.discharge())
                 
                 yield self.env.process(self.free())
                 yield self.env.process(self.moving())
@@ -33,7 +33,13 @@ class Elevator:
                 yield self.env.process(self.do_sleep())
 
     def discharge(self):
-        print('[%d]\tElevator %d is waiting for being empty on floor %s'  % (self.env.now, self.id, self.current))
+        floor = self.floors[self.current]
+        for token in self.over:
+            if token.destination == self.current:
+                self.over.remove(token)
+                floor.entering(token)
+
+        yield self.env.timeout(self.waiting)
         
     def charge(self, token):
         if len(self.over) < self.capacity:
@@ -103,19 +109,6 @@ class Elevator:
             selected.append(token.destination)
 
         return selected
-
-    def leave_elevator(self):
-        floor = self.floors[self.current]
-        for token in self.over:
-            if token.destination == self.current:
-                self.over.remove(token)
-                floor.entering(token)
-                #if self.current == 0:
-                #    floor.leaving(token)
-                #else:
-                #    floor.set_worker(token)
-
-        yield self.env.timeout(self.waiting)
         
     def do_sleep(self):
         print('[%d]\tElevator %d has no where to go' % (self.env.now, self.id))
