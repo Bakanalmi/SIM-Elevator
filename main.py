@@ -20,18 +20,18 @@ def main():
 
     if strategy <= 1:
         print("Setting up alternating environment.")
-        plot = simplot.Metrics("Alternating elevators strategy")
-        alterns = alt_strategy.setup(simulation)
+        alterns, plot = alt_strategy.setup(simulation)
         print("Running alternating strategy")
         alterns.run(until=time)
+
         plot.show()
 
     if strategy < 1 or strategy == 2:
         print("Setting up express environment.")
-        plot = simplot.Metrics("Express elevator strategy")
-        express = xps_strategy.setup(simulation)
+        express, plot = xps_strategy.setup(simulation)
         print("Running express strategy")
         express.run(until=time)
+        
         plot.show()
 
 if __name__ == "__main__":

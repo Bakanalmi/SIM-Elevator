@@ -13,6 +13,8 @@ class Floor:
 
         if self.floor > 0:
             self.office = office.Office(env, values, self)
+
+        self.metrics = None
         
     def set_elevator(self, ident, elevator):
         self.elevators[ident] = elevator
@@ -50,6 +52,11 @@ class Floor:
             self.waiting.append(token)
 
     def set_worker(self, token):
+        if self.metrics != None:
+            arrival = self.env.now
+            entry = token.entry_time
+            self.metrics.waiting(arrival-entry)
+
         self.env.process(self.office.request(token))
         token.destination = 0
         self.entering(token)
