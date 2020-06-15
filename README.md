@@ -1,2 +1,2 @@
-# SIM---Elevator-Strategy
+# SIM-Elevator-Strategy
 Simulació d'un sistema d'ascensors
