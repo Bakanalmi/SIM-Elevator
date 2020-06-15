@@ -23,7 +23,7 @@ def setup(values):
 
         if n_floor == 0:
             creator = factory.Token(env, floor, values)
-            #floor.home = creator
+            floor.home = creator
             env.process(creator.new_token())
 
     plot.set_resource_floors(floors_parell)

@@ -82,14 +82,14 @@ class Elevator:
         selected = self.selected_stops()
         # Quin és el pis més proper en el qual volen arribar les persones a l'interior
         for n, floor in self.floors.items():
-            if self.upper and floor.floor < next_floor and floor.floor > self.current:
+            if self.upper and floor.floor <= next_floor and floor.floor > self.current:
                 # si el pis conserva el sentit i, per tant, es superior a l'actual
                 stops = self.floors.keys()
                 if floor.waiting_for(stops) or floor.floor in selected:
                     # si el pis conté alguna persona que l'espera o bé, algú de dins hi vol arribar
                     next_floor = floor.floor
                     got = True
-            elif floor.floor > next_floor and floor.floor < self.current:
+            elif floor.floor >= next_floor and floor.floor < self.current:
                 # si el pis conserva el sentit i, per tant, es inferior a l'actual
                 stops = self.floors.keys()
                 if floor.waiting_for(stops) or floor.floor in selected:

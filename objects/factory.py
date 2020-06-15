@@ -1,7 +1,7 @@
 from numpy import random
 from entities import token
 from objects import floor
-import simpy, math
+import simpy, math, time
 
 class Token:
     def __init__(self, env, entry, values):
