@@ -22,7 +22,7 @@ Per entendre en detall com s'ha definit el sistema, així com tots els elements 
 
 ## Equip
 
-- [Hèctor Morales Carnicé](github.com/HectorMRC)
-- [Joan Pont Martoris](github.com/)
+- [Hèctor Morales Carnicé](https://github.com/HectorMRC)
+- [Joan Pont Martoris](https://github.com/)
 
 ##### Qualificació obtinguda: 10
