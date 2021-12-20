@@ -41,14 +41,6 @@ class Metrics:
             else:
                 self.waiting_values.append(0)
 
-            # consum energetic
-            for key, elev in self.elevators.items():
-                cons = elev.generator.consumed
-                if key not in self.consumption_elev:
-                    self.consumption_elev[key] = [cons]
-                else:
-                    self.consumption_elev[key].append(cons)
-
             yield self.env.timeout(self.timeout)
 
     def build(self):

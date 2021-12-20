@@ -10,7 +10,6 @@ def setup_xpress(env, values, all_floors):
 
     elev.capacity = elev.capacity/2
     elev.velocity = values.get('elevators').get('express')
-    elev.generator.required = values.get('elevators').get('x_requ')
     
     for key in all_floors:
             all_floors[key].set_elevator(xpress_id, elev)

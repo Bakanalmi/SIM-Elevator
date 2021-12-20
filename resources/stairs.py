@@ -1,4 +1,5 @@
-import simpy, time
+import simpy
+
 
 class Stairs:
     def __init__(self, env, values):
@@ -9,13 +10,13 @@ class Stairs:
         self.floors = {}
 
     def request(self, token):
-        print('[%d]\tToken %d is taking the stairs.'  % (self.env.now, token.id))
+        print('[%d]\tToken %d is taking the stairs.' % (self.env.now, token.id))
         request = self.res.request()
         yield request
 
         timeout = abs(token.current - token.destination) * self.velocity
         yield self.env.timeout(timeout)
-        
+
         floor = self.floors[token.destination]
         floor.entering(token)
         self.res.release(request)
