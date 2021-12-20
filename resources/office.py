@@ -1,5 +1,6 @@
 import simpy
 
+
 class Office:
     def __init__(self, env, values, floor):
         self.env = env
@@ -9,13 +10,13 @@ class Office:
         self.floor = floor
 
     def request(self, token):
-        print('[%d]\tToken %d starts working on floor %d'  % (self.env.now, token.id, self.floor.floor))
+        print('[%d]\tToken %d starts working on floor %d' % (self.env.now, token.id, self.floor.floor))
         request = self.res.request()
         yield request
 
         yield self.env.timeout(self.working_time)
         token.destination = 0
         token.latest = self.env.now
-        
+
         self.floor.entering(token)
         self.res.release(request)

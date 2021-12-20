@@ -1,12 +1,11 @@
 from numpy import random
 from entities import token
-from objects import floor
-import simpy, math, time
+import math
 
 class Token:
     def __init__(self, env, entry, values):
         random.seed(values.get('seed'))
-        
+
         self.counter = 0
         self.env = env
         self.entry = entry
@@ -24,7 +23,7 @@ class Token:
             lower = self.values.get('arrival').get('lower')
 
             howmay = math.ceil(random.normal(loc=loc, scale=scale, size=1))
-            
+
             for iterator in range(0, howmay):
                 person = token.Persona(self.env, self.values, self.counter)
                 self.entry.entering(person)
@@ -34,6 +33,6 @@ class Token:
             yield self.env.timeout(timeout)
 
     def delete_token(self, token):
-        print('[%d]\tToken %d is leaving at home'  % (self.env.now, token.id))
+        print('[%d]\tToken %d is leaving at home' % (self.env.now, token.id))
         self.home += 1
         del token

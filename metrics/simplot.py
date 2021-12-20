@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import time
+
 
 class Metrics:
     def __init__(self, env, values, title):

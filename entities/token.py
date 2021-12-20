@@ -1,5 +1,6 @@
 from numpy import random
-import simpy, math, time
+import math
+
 
 class Persona:
     def __init__(self, env, values, ident):

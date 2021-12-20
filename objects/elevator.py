@@ -1,5 +1,3 @@
-from objects import generator
-import simpy, math, time
 
 class Elevator:
 
@@ -7,7 +5,6 @@ class Elevator:
         self.id = ident
         self.env = env
 
-        self.generator = generator.Generator(env, values)
         self.velocity = values.get('elevators').get('velocity')
         self.waiting = values.get('elevators').get('waiting')
         self.capacity = values.get('elevators').get('capacity')
@@ -59,13 +56,11 @@ class Elevator:
         next_floor, got = self.closest_floor()
         #while not got:
         if got:
-            self.generator.on()
             print('[%d]\tElevator %d goes from %d to %d' % (self.env.now, self.id, self.current, next_floor))
             timeout = abs(next_floor-self.current) * self.velocity
             yield self.env.timeout(timeout)
 
             self.current = next_floor
-            self.generator.off(len(self.over))
         else:
             # There is nowhere to go
             self.sleep = True

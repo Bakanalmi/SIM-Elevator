@@ -11,8 +11,8 @@ simulation:
     
     # Sobre com es l'entorn on simular la/les estrategia/es
     environment:
-        n_elevator: 4   # total d'ascensors
-        n_floors: 12    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
+        n_elevator: 2   # total d'ascensors
+        n_floors: 10    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
         cap_floor: 90  # capacitat de persones per planta
         stairs: True    # L'edifici te escales
 

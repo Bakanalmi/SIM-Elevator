@@ -1,13 +1,12 @@
 from util import parser
-from objects import elevator
-from metrics import simplot
 import alterns as alt_strategy
 import express as xps_strategy
-import simpy, sys, random
+import sys, random
 
 values_path = './values.yaml'
 if len(sys.argv) > 1:
-        values_path = sys.argv[1]
+    values_path = sys.argv[1]
+
 
 def main():
     print("Parsing values from", values_path)
@@ -15,7 +14,7 @@ def main():
     simulation = values.get('simulation')
     lapse = simulation.get('time')
     strategy = simulation.get('strategy')
-    time = 3600 * (lapse.get('to')-lapse.get('from'))
+    time = 3600 * (lapse.get('to') - lapse.get('from'))
     random.seed(simulation.get('seed'))
 
     if strategy <= 1:
@@ -31,8 +30,9 @@ def main():
         express, plot = xps_strategy.setup(simulation)
         print("Running express strategy")
         express.run(until=time)
-        
+
         plot.show()
+
 
 if __name__ == "__main__":
     main()
