@@ -1,21 +1,22 @@
 from resources import stairs, office
 import simpy
 
+
 class Floor:
 
     def __init__(self, env, values, floor):
         self.env = env
-        self.floor = floor  # Pis al qual s'ubica
+        self.floor = floor   # Pis al qual s'ubica
 
-        self.elevators = {}     # Ascensors els quals arriben al pis
-        self.waiting = []       # Treballadors esperant algun ascensor al pis
+        self.elevators = {}  # Ascensors els quals arriben al pis
+        self.waiting = []    # Treballadors esperant algun ascensor al pis
         self.home = None
 
         if self.floor > 0:
             self.office = office.Office(env, values, self)
 
         self.metrics = None
-        
+
     def set_elevator(self, ident, elevator):
         self.elevators[ident] = elevator
 
@@ -23,18 +24,18 @@ class Floor:
         self.stairs = stairs
 
     def arrival(self, elevator_id):
-        yield self.env.timeout(2) # obertura de les portes
+        yield self.env.timeout(2)  # obertura de les portes
         elev = self.elevators[elevator_id]
-        
+
         succeed = True
         for token in self.waiting:
             if not succeed:
                 break
-            
+
             if elev.does_stop(token.destination):
                 succeed = elev.charge(token)
                 if succeed:
-                    print('[%d]\tToken %d goes to elevator %d'  % (self.env.now, token.id, elev.id))
+                    print('[%d]\tToken %d goes to elevator %d' % (self.env.now, token.id, elev.id))
                     self.waiting.remove(token)
 
     def waiting_for(self, floors):
@@ -50,16 +51,16 @@ class Floor:
             if self.metrics != None:
                 arrival = self.env.now
                 entry = token.latest
-                self.metrics.waiting(arrival-entry)
+                self.metrics.waiting(arrival - entry)
 
-            print('[%d]\tToken %d arrived at floor %d'  % (self.env.now, token.id, self.floor))
+            print('[%d]\tToken %d arrived at floor %d' % (self.env.now, token.id, self.floor))
             if self.floor == 0:
                 self.leaving(token)
             else:
                 self.env.process(self.office.request(token))
 
         else:
-            print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.destination))
+            print('[%d]\tToken %d destination is floor %d' % (self.env.now, token.id, token.destination))
             if token.walker:
                 self.env.process(self.stairs.request(token))
             else:
