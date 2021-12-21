@@ -3,19 +3,17 @@ class State(Enum):
     SERVICE = 1
     LOCK = 2
     UNLOCK  = 3
-    ACCESSE = 4
-    ACCESSS = 5
-    ACCESSO = 6
-    ACCESSN = 7
+
 
 class EventType(Enum):
     TrucarAscensor=1
     PujarAscensor=2
-    Tranfer=3
-    Cycle=4
-    StepIn=5
-    Access=6
-    SimulationStart=7
+    PersonaEspera=3
+    Tranfer=4
+    Cycle=5
+    StepIn=6
+    Access=7
+    SimulationStart=8
 
 class Colors:
     HEADER = '\033[95m'
