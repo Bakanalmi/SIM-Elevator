@@ -1,5 +1,5 @@
 from numpy import random
-from entities import person
+from entities import Person
 import math
 
 class Token:

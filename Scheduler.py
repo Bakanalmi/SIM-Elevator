@@ -1,14 +1,16 @@
 from event.Constants import *
 from event.Event import Event
-from objects import Elevator, factory, floor as obj_floor
-from resources import stairs as res_stairs
+from objects import Elevator, factory, Floor as obj_floor
+from resources import Stairs as res_stairs
 import bisect
+import time
 
 
 class ElevatorSimulation:
     eventList = []
     floors_parell = {}
     floors_senars = {}
+    currentTime = 0
 
     def __init__(self, values):
         self.simulationStart = Event(self, 0, EventType.SimulationStart, None)
@@ -21,6 +23,7 @@ class ElevatorSimulation:
         while len(self.eventList) > 0:
             # recuperem event simulacio
             event = self.eventList.pop(0)
+            self.currentTime = event.tid
             # deleguem l'accio a realitzar de l'esdeveniment a l'objecte que l'ha generat
             # tambe podriem delegar l'accio a un altre objecte
             event.objekt.tractarEsdeveniment(event)
@@ -41,7 +44,7 @@ class ElevatorSimulation:
     def createBuild(self):
         # Creació dels pisos i classificació entre parells i senars
         for n_floor in range(0, self.values.get('environment').get('n_floors') + 1):
-            floor = obj_floor.Floor(self.values, n_floor)
+            floor = obj_floor.Floor(self, self.values, n_floor)
 
             if n_floor == 0 or n_floor % 2 == 0:
                 self.floors_parell[n_floor] = floor
@@ -54,7 +57,7 @@ class ElevatorSimulation:
 
     def createStairs(self):
         # Creació de l'escala
-        self.stairs = res_stairs.Stairs(self.values)
+        self.stairs = res_stairs.Stairs(self, self.values)
         self.stairs.setUp(self.floors_parell)
         self.stairs.setUp(self.floors_senars)
 

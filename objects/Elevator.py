@@ -1,4 +1,4 @@
-from entities import person
+from entities import Person
 from event.Event import Event
 from event.Constants import *
 import bisect
