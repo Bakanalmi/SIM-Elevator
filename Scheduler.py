@@ -64,7 +64,7 @@ class ElevatorSimulation:
     def createElevator(self):
         # Creació dels ascensors i assignació dels pisos disponibles
         for n_elev in range(0, self.values.get('environment').get('n_elevator')):
-            self.elev = Elevator.Elevator(self.values, n_elev)
+            self.elev = Elevator.Elevator(self.values, self, n_elev)
             if n_elev % 2 == 0:
                 self.elev.setUp(self.floors_parell)
                 for key in self.floors_parell:

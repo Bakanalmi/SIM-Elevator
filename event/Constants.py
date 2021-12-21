@@ -4,14 +4,18 @@ from enum import Enum
 class State(Enum):
     SERVICE = 1
     LOCK = 2
-    UNLOCK = 3
-    ACCESSE = 4
-    ACCESSS = 5
-    ACCESSO = 6
-    ACCESSN = 7
+    UNLOCK  = 3
 
 
 class EventType(Enum):
+    TrucarAscensor=1
+    GetElevator=2
+    PersonaEspera=3
+    Tranfer=4
+    Cycle=5
+    StepIn=6
+    Access=7
+    SimulationStart=8
     TrucarAscensor = 1
     PujarAscensor = 2
     Tranfer = 3
