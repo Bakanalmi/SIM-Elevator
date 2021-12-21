@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 
 class Metrics:
-    def __init__(self, env, values, title):
-        self.env = env
+    def __init__(self, time, values, title):
+        self.time = time
         self.start = values.get('time').get('from')
         self.timeout = values.get('metrics')
         self.title = title
@@ -22,8 +22,7 @@ class Metrics:
 
     def gather(self):
         while True:
-            now = self.env.now/3600 + self.start
-            self.gather_lapses.append(now)
+            self.gather_lapses.append(self.time)
 
             # ocupació pisos
             for key, floor in self.floors.items():

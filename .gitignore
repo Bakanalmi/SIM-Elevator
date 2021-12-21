@@ -127,9 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/runConfigurations.xml
-/.idea/SIM-Elevator.iml
-/.idea/vcs.xml
-/.idea/workspace.xml
+/.idea/
