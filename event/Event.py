@@ -1,3 +1,5 @@
+from event import Constants
+
 class Event:
     def __init__(self, implicat, temps, tipus, entitat=None, fra=None):
         # inicialitzar element de simulacio

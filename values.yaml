@@ -18,7 +18,7 @@ simulation:
 
     # Sobre com son els ascensors
     elevators:
-        capacity: 12    # capacitat d'un ascensor estandard
+        capacity: 4    # capacitat d'un ascensor estandard
         velocity: 10    # temps en segons que triga un ascensor normal entre dues plantes consecutives
         express: 5      # temps en segons que triga l'ascensor express entre dues plantes consecutives
         x_requ: 200     # energia requerida per l'ascensor express

@@ -1,5 +1,5 @@
 from numpy import random
-from entities import token
+from entities import person
 import math
 
 class Token:
@@ -25,7 +25,7 @@ class Token:
             howmay = math.ceil(random.normal(loc=loc, scale=scale, size=1))
 
             for iterator in range(0, howmay):
-                person = token.Persona(self.env, self.values, self.counter)
+                person = person.Persona(self.env, self.values, self.counter)
                 self.entry.entering(person)
                 self.counter += 1
 
