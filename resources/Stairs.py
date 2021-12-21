@@ -1,6 +1,5 @@
 from event.Constants import *
 from event.Event import Event
-import time
 
 
 class Stairs:

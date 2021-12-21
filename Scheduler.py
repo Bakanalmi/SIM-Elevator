@@ -1,9 +1,8 @@
 from event.Constants import *
 from event.Event import Event
-from objects import Elevator, factory, Floor as obj_floor
+from objects import Elevator, Factory, Floor as obj_floor
 from resources import Stairs as res_stairs
 import bisect
-import time
 
 
 class ElevatorSimulation:
@@ -33,8 +32,8 @@ class ElevatorSimulation:
         bisect.insort(self.eventList, event)
 
     def tractarEsdeveniment(self, event):
-        if (event.type == EventType.SimulationStart):
-            self.factory.simulationStart()
+        if event.type == EventType.SimulationStart:
+            self.eventList.append(Event(self.factory, self.currentTime, EventType.GeneratePeople, None))
 
     def createModel(self):
         self.createBuild()
@@ -43,7 +42,7 @@ class ElevatorSimulation:
 
     def createBuild(self):
         # Creació dels pisos i classificació entre parells i senars
-        for n_floor in range(0, self.values.get('environment').get('n_floors') + 1):
+        for n_floor in range(0, self.values.get('environment').get('n_floors')):
             floor = obj_floor.Floor(self, self.values, n_floor)
 
             if n_floor == 0 or n_floor % 2 == 0:
@@ -52,7 +51,7 @@ class ElevatorSimulation:
                 self.floors_senars[n_floor] = floor
 
             if n_floor == 0:
-                self.factory = factory.Token(floor, self.values)
+                self.factory = Factory.Token(self, floor, self.values)
                 floor.home = self.factory
 
     def createStairs(self):

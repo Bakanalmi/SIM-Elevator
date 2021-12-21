@@ -1,6 +1,5 @@
 from event.Constants import *
 from event.Event import Event
-import time
 
 
 class Floor:
@@ -46,5 +45,5 @@ class Floor:
         if event.type == EventType.StartWorking:
             self.startWorking(event.entitat)
 
-        if event.type == EventType.FinishWorking:
+        elif event.type == EventType.FinishWorking:
             self.finishWorking(event.entitat)
