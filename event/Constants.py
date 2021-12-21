@@ -9,12 +9,13 @@ class State(Enum):
     ACCESSN = 7
 
 class EventType(Enum):
-    NextArrival=1
-    Tranfer=2
-    Cycle=3
-    StepIn=4
-    Access=5
-    SimulationStart=6
+    TrucarAscensor=1
+    PujarAscensor=2
+    Tranfer=3
+    Cycle=4
+    StepIn=5
+    Access=6
+    SimulationStart=7
 
 class Colors:
     HEADER = '\033[95m'

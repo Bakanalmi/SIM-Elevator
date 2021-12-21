@@ -1,5 +1,5 @@
 from resources import stairs, office
-import simpy
+
 
 
 class Floor:
@@ -41,7 +41,7 @@ class Floor:
 
     def waiting_for(self, floors):
         waiting = False
-        for person in self.waiting:
+        for person in self.personWaiting:
             waiting = waiting or person.dest in floors
 
         return waiting
@@ -64,5 +64,5 @@ class Floor:
         if self.floor == 0 and home:
             self.home.delete_token(person)
 
-        elif self.floor == 0 and not home:
+        elif self.floor > 0 and not home:
             self.personWaiting.append(person)
