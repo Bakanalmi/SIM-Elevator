@@ -16,5 +16,5 @@ class Persona:
         choose_stairs = random.exponential() % 1
         self.walker = values.get('environment').get('stairs') and choose_stairs > values.get('stairs').get('range')
 
-        self.current = 0
-        self.destination = self.office_floor
+        self.currentFloor = 0
+        self.dest = self.office_floor
