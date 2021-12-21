@@ -1,4 +1,4 @@
-import simpy
+import time
 
 
 class Stairs:
@@ -10,8 +10,9 @@ class Stairs:
         for key, floor in floors.items():
             self.floors[key] = floor
 
-    def request(self, token):
-        print('[%d]\tToken %d is taking the stairs.' % (token.id))
-
-        floor = self.floors[token.destination]
-        floor.entering(token)
+    def request(self, person):
+        print('[%d]\tToken %d is taking the stairs.' % (person.id))
+        floor = self.floors[person.destination]
+        tempsEscales = floor * self.velocity
+        time.sleep(tempsEscales)
+        floor.entering(person)

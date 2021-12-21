@@ -34,11 +34,6 @@ class Floor:
                 if personUp:
                     self.personWaiting.remove(person)
 
-
-
-
-
-
     def waiting_for(self, floors):
         waiting = False
         for person in self.waiting:
@@ -49,8 +44,6 @@ class Floor:
     def floorArrival(self, person):
         person.currentFloor = self.floor
         if person.dest == self.floor:
-            if self.metrics != None:
-                #poner tiempo y metrics
             if self.floor == 0:
                 home = True
                 self.leaving(person, home)
