@@ -43,7 +43,7 @@ class Elevator:
 
     def personPlantaCeroTrucaYPuja (self, person):
         if self.state == State.LOCK: self.state = State.UNLOCK #Obre porta
-        personaPujaAscensor = Event(self, time.time(), EventType.PujarAscensor, person)
+        personaPujaAscensor = Event(self, time.time(), EventType.GetElevator, person)
         self.scheduler.afegirEsdeveniment(personaPujaAscensor)
         self.totIn.append(person)
         self.totIn.sort(key=lambda x: x.dest)
@@ -56,7 +56,7 @@ class Elevator:
 
     def personaEsperantAPlantaSuperiorPuja(self, person):
         time = self.scheduler.currentTime + self.velocity*(person.currentFloor - self.currentFloor)
-        personaPuja = Event(self, time, EventType.PujarAscensor)
+        personaPuja = Event(self, time, EventType.GetElevator)
         self.scheduler.afegirEsdeveniment(personaPuja)
 
 

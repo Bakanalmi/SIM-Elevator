@@ -7,7 +7,7 @@ class State(Enum):
 
 class EventType(Enum):
     TrucarAscensor=1
-    PujarAscensor=2
+    GetElevator=2
     PersonaEspera=3
     Tranfer=4
     Cycle=5
