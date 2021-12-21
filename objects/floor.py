@@ -1,70 +1,68 @@
 from resources import stairs, office
 import simpy
 
+
 class Floor:
 
-    def __init__(self, env, values, floor):
-        self.env = env
-        self.floor = floor  # Pis al qual s'ubica
+    def __init__(self, floor):
 
-        self.elevators = {}     # Ascensors els quals arriben al pis
-        self.waiting = []       # Treballadors esperant algun ascensor al pis
+        self.floor = floor   # Pis actual
+        self.elevators = {}  # Ascensors del pis
+        self.personWaiting = []    # Gent esperant
         self.home = None
 
-        if self.floor > 0:
-            self.office = office.Office(env, values, self)
-
         self.metrics = None
-        
+
     def set_elevator(self, ident, elevator):
         self.elevators[ident] = elevator
 
     def set_stairs(self, stairs):
         self.stairs = stairs
 
-    def arrival(self, elevator_id):
-        yield self.env.timeout(2) # obertura de les portes
-        elev = self.elevators[elevator_id]
-        
-        succeed = True
-        for token in self.waiting:
-            if not succeed:
+
+    def eleArriv(self, ident):
+        ele = self.elevators[ident]
+
+        error = False
+
+        for person in self.personWaiting:
+            if error:
                 break
-            
-            if elev.does_stop(token.destination):
-                succeed = elev.charge(token)
-                if succeed:
-                    print('[%d]\tToken %d goes to elevator %d'  % (self.env.now, token.id, elev.id))
-                    self.waiting.remove(token)
+
+            if ele.stop_floor(person.desti):
+                personUp = ele.transferencia(person)
+                if personUp:
+                    self.personWaiting.remove(person)
+
+
+
+
+
 
     def waiting_for(self, floors):
         waiting = False
-        for token in self.waiting:
-            waiting = waiting or token.destination in floors
+        for person in self.waiting:
+            waiting = waiting or person.dest in floors
 
         return waiting
 
-    def entering(self, token):
-        token.current = self.floor
-        if token.destination == self.floor:
+    def floorArrival(self, person):
+        person.currentFloor = self.floor
+        if person.dest == self.floor:
             if self.metrics != None:
-                arrival = self.env.now
-                entry = token.latest
-                self.metrics.waiting(arrival-entry)
-
-            print('[%d]\tToken %d arrived at floor %d'  % (self.env.now, token.id, self.floor))
+                #poner tiempo y metrics
             if self.floor == 0:
-                self.leaving(token)
+                home = True
+                self.leaving(person, home)
             else:
-                self.env.process(self.office.request(token))
+                home = False
+                self.leaving(person, home)
 
-        else:
-            print('[%d]\tToken %d destination is floor %d'  % (self.env.now, token.id, token.destination))
-            if token.walker:
-                self.env.process(self.stairs.request(token))
-            else:
-                self.waiting.append(token)
 
-    def leaving(self, token):
-        if self.floor == 0 and self.home != None:
-            self.home.delete_token(token)
+
+    def leaving(self, person, home):
+        if self.floor == 0 and home:
+            self.home.delete_token(person)
+
+        elif self.floor == 0 and not home:
+            self.personWaiting.append(person)
