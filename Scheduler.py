@@ -1,7 +1,7 @@
 from event.Constants import *
 from event.Event import Event
-from objects import Elevator, Factory, Floor as obj_floor
-from resources import Stairs as res_stairs
+from objects import Elevator, Factory, Floor
+from resources import Stairs
 import bisect
 
 
@@ -38,12 +38,12 @@ class ElevatorSimulation:
     def createModel(self):
         self.createBuild()
         self.createStairs()
-        self.createStairs()
+        self.createElevator()
 
     def createBuild(self):
         # Creació dels pisos i classificació entre parells i senars
-        for n_floor in range(0, self.values.get('environment').get('n_floors')):
-            floor = obj_floor.Floor(self, self.values, n_floor)
+        for n_floor in range(0, 10):
+            floor = Floor.Floor(self, self.values, n_floor)
 
             if n_floor == 0 or n_floor % 2 == 0:
                 self.floors_parell[n_floor] = floor
@@ -56,13 +56,13 @@ class ElevatorSimulation:
 
     def createStairs(self):
         # Creació de l'escala
-        self.stairs = res_stairs.Stairs(self, self.values)
+        self.stairs = Stairs.Stairs(self, self.values)
         self.stairs.setUp(self.floors_parell)
         self.stairs.setUp(self.floors_senars)
 
     def createElevator(self):
         # Creació dels ascensors i assignació dels pisos disponibles
-        for n_elev in range(0, self.values.get('environment').get('n_elevator')):
+        for n_elev in range(0, 2):
             self.elev = Elevator.Elevator(self.values, self, n_elev)
             if n_elev % 2 == 0:
                 self.elev.setUp(self.floors_parell)

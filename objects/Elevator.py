@@ -1,9 +1,8 @@
 import time
 
-from entities.person import *
+from entities.Person import *
 from event.Event import Event
 from event.Constants import *
-import bisect
 
 class Elevator:
 

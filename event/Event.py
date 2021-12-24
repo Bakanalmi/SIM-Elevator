@@ -1,4 +1,3 @@
-from event import Constants
 
 class Event:
     def __init__(self, implicat, temps, tipus, entitat):
