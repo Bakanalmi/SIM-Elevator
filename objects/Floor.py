@@ -114,7 +114,7 @@ class Floor:
             if person in elevator.peopleIn:
                 elevator.peopleIn.remove(person)
         if len(elevator.peopleIn) == 0:
-            # Si l'ascensor está buit canviarà el seu estat
+            # Si l'ascensor està buit canviarà el seu estat
             self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.Empty, None))
 
     def tractarEsdeveniment(self, event):
