@@ -10,7 +10,7 @@ class Token:
         self.scheduler = scheduler
         self.entry = entry
         self.values = values
-        self.MAX = (values.get('environment').get('n_floors') * values.get('environment').get('cap_floor'))
+        self.MAX = values.get('environment').get('cap_building')
 
         self.home = 0
 
@@ -20,7 +20,7 @@ class Token:
             self.scheduler.eventList.append(Event(self.scheduler, time, EventType.GeneratePeople, None))
             for iterator in range(1, 5):
                 person = Person.Person(self.values, self.counter)
-                print('[%d]\tToken %d is being generated' % (self.scheduler.currentTime, person.id))
+                print('[%d]\tToken %d has been generate' % (self.scheduler.currentTime, person.id))
                 self.scheduler.eventList.append(Event(self.entry, self.scheduler.currentTime, EventType.EnterBuilding, person))
                 self.counter += 1
 

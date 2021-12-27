@@ -1,4 +1,3 @@
-simulation:
     # 0: totes a l'hora; 1: només alternant; 2: només l'express
     strategy: 0
     seed: 12345 # random seed
@@ -13,7 +12,7 @@ simulation:
     environment:
         n_elevator: 2   # total d'ascensors
         n_floors: 10    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
-        cap_floor: 90  # capacitat de persones per planta
+        cap_building: 90  # capacitat de persones per planta
         stairs: True    # L'edifici te escales
 
     # Sobre com son els ascensors

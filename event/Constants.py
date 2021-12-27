@@ -2,22 +2,26 @@ from enum import Enum
 
 
 class State(Enum):
-    SERVICE = 1
-    LOCK = 2
-    UNLOCK = 3
+    IDLE = 1
+    UP = 2
+    DOWN = 3
+    TRANSFER = 4
 
 
 class EventType(Enum):
-    TrucarAscensor = 1
-    GetElevator = 2
-    PersonaEspera = 3
-    FinishWork = 4
-    GetStairs = 5
-    StartWorking = 6
-    GeneratePeople = 7
-    SimulationStart = 8
-    EnterBuilding = 9
-    DeletePerson = 10
+    CallUp = 1
+    CallDown = 2
+    GetPeopleInElevator = 3
+    GetPeopleOutElevator = 4
+    Empty = 5
+    SelectFloor = 6
+    FinishWorking = 7
+    GetStairs = 8
+    StartWorking = 9
+    GeneratePeople = 10
+    SimulationStart = 11
+    EnterBuilding = 12
+    DeletePerson = 13
 
 
 class Colors:

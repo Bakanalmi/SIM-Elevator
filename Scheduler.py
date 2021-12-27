@@ -62,15 +62,13 @@ class ElevatorSimulation:
 
     def createElevator(self):
         # Creació dels ascensors i assignació dels pisos disponibles
-        for n_elev in range(0, 2):
-            self.elev = Elevator.Elevator(self.values, self, n_elev)
-            if n_elev % 2 == 0:
-                self.elev.setUp(self.floors_parell)
-                for key in self.floors_parell:
-                    self.floors_parell[key].set_elevator(n_elev, self.elev)
-                    self.floors_parell[key].set_stairs(self.stairs)
-            else:
-                self.elev.setUp(self.floors_senars)
-                for key in self.floors_senars:
-                    self.floors_senars[key].set_elevator(n_elev, self.elev)
-                    self.floors_senars[key].set_stairs(self.stairs)
+        elev = Elevator.Elevator(self.values, self, 0)
+        elev.setUp(self.floors_parell)
+        for key in self.floors_parell:
+            self.floors_parell[key].set_elevator(0, elev)
+            self.floors_parell[key].set_stairs(self.stairs)
+        elev = Elevator.Elevator(self.values, self, 1)
+        elev.setUp(self.floors_senars)
+        for key in self.floors_senars:
+            self.floors_senars[key].set_elevator(1, elev)
+            self.floors_senars[key].set_stairs(self.stairs)

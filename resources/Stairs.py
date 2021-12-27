@@ -14,8 +14,8 @@ class Stairs:
 
     def request(self, person):
         print('[%d]\tToken %d is taking the stairs.' % (self.scheduler.currentTime, person.id))
-        floor = self.floors[person.destination]
-        timeStairs = self.scheduler.currentTime + floor * self.velocity
+        floor = self.floors[person.dest]
+        timeStairs = self.scheduler.currentTime + floor.floor * self.velocity
         self.scheduler.afegirEsdeveniment(Event(floor, timeStairs, EventType.StartWorking, person))
 
     def tractarEsdeveniment(self, event):
