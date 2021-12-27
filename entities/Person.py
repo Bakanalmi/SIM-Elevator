@@ -1,8 +1,9 @@
-import random
+from numpy import random
 
 
 class Person:
     def __init__(self, values, ident):
+        random.seed(values.get('seed'))
         self.latest = 0
         self.id = ident
 

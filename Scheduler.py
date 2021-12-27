@@ -70,5 +70,8 @@ class ElevatorSimulation:
         elev = Elevator.Elevator(self.values, self, 1)
         elev.setUp(self.floors_senars)
         for key in self.floors_senars:
-            self.floors_senars[key].set_elevator(1, elev)
+            if key == 0:
+                self.floors_senars[key].set_elevator(1, elev)
+            else:
+                self.floors_senars[key].set_elevator(0, elev)
             self.floors_senars[key].set_stairs(self.stairs)

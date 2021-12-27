@@ -30,12 +30,12 @@ class Elevator:
             self.state = State.UP
             self.up = True
             time = self.scheduler.currentTime + (floor.floor - self.currentFloor) * self.velocity
-            self.scheduler.afegirEsdeveniment(Event(self, time, EventType.CallUp, floor))
+            self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFLoor, floor))
         else:
             self.state = State.DOWN
             self.up = False
             time = self.scheduler.currentTime + (self.currentFloor - floor.floor) * self.velocity
-            self.scheduler.afegirEsdeveniment(Event(self, time, EventType.CallDown, floor))
+            self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, floor))
 
     def saveUpCall(self, floor):
         self.upCalls = floor.floor
@@ -76,6 +76,7 @@ class Elevator:
             self.state = State.IDLE
 
     def selectFloor(self, floor):
+        print('[%d]\tFloor %d is being selected.' % (self.scheduler.currentTime, floor.floor))
         if self.currentFloor > floor.floor:
             self.up = False
             time = self.scheduler.currentTime + (self.currentFloor - floor.floor) * self.velocity
@@ -85,12 +86,19 @@ class Elevator:
             time = self.scheduler.currentTime + (floor.floor - self.currentFloor) * self.velocity
             self.scheduler.afegirEsdeveniment(Event(floor, time, EventType.GetPeopleOutElevator, self))
 
+    def changeFloor(self, floor):
+        self.currentFloor = floor.floor
+        self.scheduler.afegirEsdeveniment(Event(floor, self.scheduler.currentTime, EventType.GetPeopleInElevator, self))
+
     def tractarEsdeveniment(self, event):
         if event.type == EventType.CallUp:
             if self.state == State.IDLE:
                 self.changeStateIDLEToMovement(event.entitat)
             else:
                 self.saveUpCall(event.entitat)
+        elif event.type == EventType.ChangeFloor:
+            self.changeFloor(event.entitat)
+
         elif event.type == EventType.CallDown:
             if self.state == State.IDLE:
                 self.changeStateIDLEToMovement(event.entitat)

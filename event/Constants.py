@@ -22,6 +22,7 @@ class EventType(Enum):
     SimulationStart = 11
     EnterBuilding = 12
     DeletePerson = 13
+    ChangeFloor = 14
 
 
 class Colors:
