@@ -43,30 +43,36 @@ class Floor:
         elevator.currentFloor = self.floor
         if self.floor != 0:
             # Aqui es diferencia entre la planta 0, ja que té una cua per cada ascensor, i les altres plantes que tenen una cua
-            while len(self.peopleWaiting):
+            while len(self.peopleWaiting) > 0 and len(elevator.peopleIn) <= elevator.capacity:
                 # La gent entra a l'ascensor
-                person = self.peopleWaiting.pop()
-                print(Colors.OKGREEN, '[%d]\tToken %d get in the elevator' % (self.scheduler.currentTime, person.id), Colors.ENDC)
+                person = self.peopleWaiting.pop(0)
+                print(Colors.OKGREEN, '[%d]\tToken %d gets in the elevator %d' % (self.scheduler.currentTime, person.id, elevator.id), Colors.ENDC)
                 elevator.peopleIn.append(person)
                 self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.SelectFloor, elevator.floors.get(0)))
+            if len(self.peopleWaiting) and len(elevator.peopleIn) >= elevator.capacity:
+                elevator.downCalls.append(self.floor)
         else:
             # Aqui es diferencia entre la planta 0, ja que té una cua per cada ascensor, i les altres plantes que tenen una cua
             if elevator.id % 2 == 0:
                 # Si la persona está a la planta baixa i vol anar a un pis par es posarà en la cua de l'ascensor par
-                while len(self.peopleWaitingPar):
+                while len(self.peopleWaitingPar) > 0 and len(elevator.peopleIn) <= elevator.capacity:
                     # La gent entra a l'ascensor
-                    person = self.peopleWaitingPar.pop()
-                    print(Colors.OKGREEN, '[%d]\tToken %d get in the elevator' % (self.scheduler.currentTime, person.id), Colors.ENDC)
+                    person = self.peopleWaitingPar.pop(0)
+                    print(Colors.OKGREEN, '[%d]\tToken %d gets in the elevator %d' % (self.scheduler.currentTime, person.id, elevator.id), Colors.ENDC)
                     elevator.peopleIn.append(person)
                     self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.SelectFloor, elevator.floors.get(person.dest)))
+                if len(self.peopleWaitingPar) and len(elevator.peopleIn) >= elevator.capacity:
+                    elevator.upCalls = self.floor
             else:
                 # Si la persona está a la planta baixa i vol anar a un pis impar es posarà en la cua de l'ascensor impar
-                while len(self.peopleWaitingImpar):
+                while len(self.peopleWaitingImpar) > 0 and len(elevator.peopleIn) <= elevator.capacity:
                     # La gent entra a l'ascensor
-                    person = self.peopleWaitingImpar.pop()
-                    print(Colors.OKGREEN, '[%d]\tToken %d get in the elevator' % (self.scheduler.currentTime, person.id), Colors.ENDC)
+                    person = self.peopleWaitingImpar.pop(0)
+                    print(Colors.OKGREEN, '[%d]\tToken %d gets in the elevator %d' % (self.scheduler.currentTime, person.id, elevator.id), Colors.ENDC)
                     elevator.peopleIn.append(person)
                     self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.SelectFloor, elevator.floors.get(person.dest)))
+                if len(self.peopleWaitingImpar) > 0 and len(elevator.peopleIn) >= elevator.capacity:
+                    elevator.upCalls = self.floor
 
     def personGetInTheBuilding(self, person):
         # Entra gent a l'edifici

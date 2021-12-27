@@ -53,10 +53,10 @@ class Elevator:
         self.downCalls.append(floor.floor)
 
     def changeStateTransfer(self):
-        if len(self.downCalls) > 0 and self.up:
+        if len(self.downCalls) > 0:
             # Si l'ascensor ha quedat buit i estava en estat de pujada comprobarà si algú l'havia cridat per abaixar
             self.downCalls.sort(reverse=True)
-            firstStop = self.downCalls.pop()
+            firstStop = self.downCalls.pop(0)
             time = self.scheduler.currentTime
             self.state = State.DOWN
             self.up = False
@@ -70,7 +70,7 @@ class Elevator:
                 self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, self.floors[firstStop]))
             while len(self.downCalls) > 0:
                 # Després anirà a les següents en funcion de la més alta
-                floor = self.downCalls.pop()
+                floor = self.downCalls.pop(0)
                 timeNextStop = time + (firstStop - floor) * self.velocity
                 self.scheduler.afegirEsdeveniment(Event(self, timeNextStop, EventType.ChangeFloor, self.floors[floor]))
         elif self.upCalls is not None:
@@ -93,7 +93,7 @@ class Elevator:
     def selectFloor(self, floor):
         if not self.selectedFloors[floor.floor]:
             # Quan puja una persona aquesta selecciona la planta a la que vol anar si ningú l'ha seleccionat amb anterioritat
-            print(Colors.OKBLUE, '[%d]\tFloor %d is being selected' % (self.scheduler.currentTime, floor.floor), Colors.ENDC)
+            print(Colors.OKBLUE, '[%d]\tFloor %d is being selected (elevator %d)' % (self.scheduler.currentTime, floor.floor, self.id), Colors.ENDC)
             self.selectedFloors[floor.floor] = True
             if self.currentFloor > floor.floor:
                 # L'ascensor baixa per anar a buscar el pis
@@ -110,10 +110,11 @@ class Elevator:
 
     def changeFloor(self, floor):
         # L'ascensor canvia de pis
+        print(Colors.OKBLUE, '[%d]\tElevator %d changed floor %d -> %d' % (self.scheduler.currentTime, self.id, self.currentFloor, floor.floor), Colors.ENDC)
         self.currentFloor = floor.floor
-        print(Colors.OKBLUE, '[%d]\tElevator %d arrived to the floor %d' % (self.scheduler.currentTime, self.id, self.currentFloor), Colors.ENDC)
         self.state = State.TRANSFER
-        self.scheduler.afegirEsdeveniment(Event(floor, self.scheduler.currentTime, EventType.GetPeopleOutElevator, self))
+        if len(self.peopleIn) > 0:
+            self.scheduler.afegirEsdeveniment(Event(floor, self.scheduler.currentTime, EventType.GetPeopleOutElevator, self))
         self.scheduler.afegirEsdeveniment(Event(floor, self.scheduler.currentTime, EventType.GetPeopleInElevator, self))
 
     def tractarEsdeveniment(self, event):
