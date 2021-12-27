@@ -13,7 +13,7 @@ class Stairs:
             self.floors[key] = floor
 
     def request(self, person):
-        print('[%d]\tToken %d is taking the stairs.' % (self.scheduler.currentTime, person.id))
+        print(Colors.OKCYAN, '[%d]\tToken %d is taking the stairs' % (self.scheduler.currentTime, person.id), Colors.ENDC)
         floor = self.floors[person.dest]
         timeStairs = self.scheduler.currentTime + floor.floor * self.velocity
         self.scheduler.afegirEsdeveniment(Event(floor, timeStairs, EventType.StartWorking, person))

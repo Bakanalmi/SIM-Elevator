@@ -10,25 +10,16 @@
     
     # Sobre com es l'entorn on simular la/les estrategia/es
     environment:
-        n_elevator: 2   # total d'ascensors
-        n_floors: 10    # total de plantes (SENSE COMPTAR amb la planta baixa: pl=0)
-        cap_building: 90  # capacitat de persones per planta
-        stairs: True    # L'edifici te escales
+        cap_building: 20  # capacitat de persones per planta
 
     # Sobre com son els ascensors
     elevators:
-        capacity: 4    # capacitat d'un ascensor estandard
+        capacity: 8    # capacitat d'un ascensor estandard
         velocity: 10    # temps en segons que triga un ascensor normal entre dues plantes consecutives
-        express: 5      # temps en segons que triga l'ascensor express entre dues plantes consecutives
-        x_requ: 200     # energia requerida per l'ascensor express
-        waiting: 15     # temps d'espera a cada planta
-        required: 150   # energia requerida per l'ascensor a cada unitat de temps per persona a desplaçar
 
     # Sobre com son les escales
     stairs:
         velocity: 30    # temps en segons que triga qualsevol individu en desplaçar-se entre pisos consecutius
-        capacity: 50    # capcitat total de persones que poden pujar les escales simultaneament
-        range: 0.75     # essent la probabilitat d'agafar les escales un distribució entre 0. i 1., a partir de quing rang es considera que l'agafa
 
     # Sobre la distribució amb la que arriben 
     arrival:
