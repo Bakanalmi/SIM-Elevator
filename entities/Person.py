@@ -3,7 +3,7 @@ from numpy import random
 
 class Person:
     def __init__(self, values, ident):
-        self.latest = 0
+        self.waitingTime = 0
         self.id = ident
         random.seed(self.id)
 

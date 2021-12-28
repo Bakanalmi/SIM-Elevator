@@ -2,6 +2,7 @@ from event.Constants import *
 from event.Event import Event
 from objects import Elevator, Factory, Floor
 from resources import Stairs
+from metrics import Simplot
 import bisect
 
 
@@ -26,6 +27,7 @@ class ElevatorSimulation:
             # deleguem l'accio a realitzar de l'esdeveniment a l'objecte que l'ha generat
             # tambe podriem delegar l'accio a un altre objecte
             event.objekt.tractarEsdeveniment(event)
+        self.metrics.show()
 
     def afegirEsdeveniment(self, event):
         # inserir esdeveniment de forma ordenada
@@ -33,12 +35,14 @@ class ElevatorSimulation:
 
     def tractarEsdeveniment(self, event):
         if event.type == EventType.SimulationStart:
+            self.eventList.append(Event(self.metrics, self.currentTime, EventType.UpdateMetrics, None))
             self.eventList.append(Event(self.factory, self.currentTime, EventType.GeneratePeople, None))
 
     def createModel(self):
         self.createBuild()
         self.createStairs()
         self.createElevator()
+        self.createMetrics()
 
     def createBuild(self):
         # Creació dels pisos i classificació entre parells i senars
@@ -62,16 +66,23 @@ class ElevatorSimulation:
 
     def createElevator(self):
         # Creació dels ascensors i assignació dels pisos disponibles
-        elev = Elevator.Elevator(self.values, self, 0)
-        elev.setUp(self.floors_parell)
+        self.elevPar = Elevator.Elevator(self.values, self, 0)
+        self.elevPar.setUp(self.floors_parell)
         for key in self.floors_parell:
-            self.floors_parell[key].set_elevator(0, elev)
+            self.floors_parell[key].set_elevator(0, self.elevPar)
             self.floors_parell[key].set_stairs(self.stairs)
-        elev = Elevator.Elevator(self.values, self, 1)
-        elev.setUp(self.floors_senars)
+        self.elevImPar = Elevator.Elevator(self.values, self, 1)
+        self.elevImPar.setUp(self.floors_senars)
         for key in self.floors_senars:
             if key == 0:
-                self.floors_senars[key].set_elevator(1, elev)
+                self.floors_senars[key].set_elevator(1, self.elevImPar)
             else:
-                self.floors_senars[key].set_elevator(0, elev)
+                self.floors_senars[key].set_elevator(0, self.elevImPar)
             self.floors_senars[key].set_stairs(self.stairs)
+
+    def createMetrics(self):
+        self.metrics = Simplot.Metrics(self, self.values, 'elevators strategy')
+        self.metrics.set_resource_floors(self.floors_senars)
+        self.metrics.set_resource_floors(self.floors_parell)
+        self.metrics.set_resource_elevators(self.elevPar)
+        self.metrics.set_resource_elevators(self.elevImPar)

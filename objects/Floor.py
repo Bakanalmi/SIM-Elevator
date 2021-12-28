@@ -24,8 +24,10 @@ class Floor:
     def set_stairs(self, stairs):
         self.stairs = stairs
 
-    def getPeopleFromStairs(self, person):
+    def set_metrics(self, metrics):
+        self.metrics = metrics
 
+    def getPeopleFromStairs(self, person):
         print(Colors.OKGREEN, '[%d]\tToken %d starts working at floor %d' % (self.scheduler.currentTime, person.id, self.floor), Colors.ENDC)
         person.currentFloor = self.floor
         self.stairs.peopleIn.remove(person)
@@ -46,6 +48,7 @@ class Floor:
             if len(self.peopleWaiting) == 0:
                 # si no hi ha ningú a la cua crida a l'ascensor
                 self.scheduler.afegirEsdeveniment(Event(self.elevators.get(0), self.scheduler.currentTime, EventType.CallDown, self))
+            person.waitingTime = self.scheduler.currentTime
             self.peopleWaiting.append(person)
 
     def getPeopleWaitingInTheElevator(self, elevator):
@@ -56,6 +59,9 @@ class Floor:
             while len(self.peopleWaiting) > 0 and len(elevator.peopleIn) <= elevator.capacity:
                 # La gent entra a l'ascensor
                 person = self.peopleWaiting.pop(0)
+                arrival = self.scheduler.currentTime
+                entry = person.waitingTime
+                self.metrics.waiting(arrival-entry)
                 print(Colors.OKGREEN, '[%d]\tToken %d gets in the elevator %d' % (self.scheduler.currentTime, person.id, elevator.id), Colors.ENDC)
                 elevator.peopleIn.append(person)
                 self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.SelectFloor, elevator.floors.get(0)))
@@ -68,6 +74,9 @@ class Floor:
                 while len(self.peopleWaitingPar) > 0 and len(elevator.peopleIn) <= elevator.capacity:
                     # La gent entra a l'ascensor
                     person = self.peopleWaitingPar.pop(0)
+                    arrival = self.scheduler.currentTime
+                    entry = person.waitingTime
+                    self.metrics.waiting(arrival-entry)
                     print(Colors.OKGREEN, '[%d]\tToken %d gets in the elevator %d' % (self.scheduler.currentTime, person.id, elevator.id), Colors.ENDC)
                     elevator.peopleIn.append(person)
                     self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.SelectFloor, elevator.floors.get(person.dest)))
@@ -134,6 +143,8 @@ class Floor:
         if len(elevator.peopleIn) == 0:
             # Si l'ascensor està buit canviarà el seu estat
             self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.Empty, None))
+        else:
+            elevator.state = State.MOVEMENT
 
     def getOutOfTheStairs(self, person):
         person.currentFloor = self.floor

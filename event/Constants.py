@@ -23,6 +23,7 @@ class EventType(Enum):
     DeletePerson = 13
     ChangeFloor = 14
     OutOfTheBuilding = 15
+    UpdateMetrics = 16
 
 
 class Colors:
