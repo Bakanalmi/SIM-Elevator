@@ -2,7 +2,6 @@ from event.Constants import *
 from entities import Person
 from event.Event import Event
 from numpy import random
-import math
 
 
 class Token:
@@ -12,17 +11,11 @@ class Token:
         self.entry = entry
         self.values = values
         self.MAX = values.get('environment').get('cap_building')
-        self.loc = self.values.get('arrival').get('loc')
-        self.scale = self.values.get('arrival').get('scale')
-
-        self.upper = self.values.get('arrival').get('upper')
-        self.lower = self.values.get('arrival').get('lower')
-
         self.home = 0
 
     def newToken(self):
         if self.MAX > self.counter:
-            random.seed(self.counter % 223)
+            random.seed(self.counter)
             howMany = random.randint(1, 5)
             for iterator in range(0, howMany):
                 person = Person.Person(self.values, self.counter)

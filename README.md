@@ -1,20 +1,18 @@
 # SIM-Elevator-Strategy
 
-Implementació en __Python__ d'un simulador d'esdeveniments discrets (mitjançant la llibreria __Simpy__) per a l'assignatura de simulació (SIM) de la Facultat d'Informàtica de Barcelona (FiB - UPC).
+Implementació en __Python__ d'un simulador d'esdeveniments discrets per a l'assignatura de simulació (SIM) de la Facultat d'Informàtica de Barcelona (FiB - UPC).
 
 ## Descripció del sistema
 
-En aquesta entrega hem decidit enfocar-nos en la proposta d’analitzar l’impacte de dues polítiques d'ús en un sistema de quatre ascensors.
+En aquesta entrega hem decidit enfocar-nos en la proposta d’analitzar l’impacte de dues polítiques d’ús en un sistema amb 2 ascensors.
 
-L’escenari que es planteja, doncs, consta de quatre ascensors que pugen i baixen a través d’un sistema de dotze plantas en total. D’aquesta manera, es vol saber com afecten les següents estratègies en la coordinació dels ascensors i en l’exercici de les múltiples tasques (transportar persones):
-- `Alternant`: Dos ascensors es desplacen únicamente entre plantes parelles, mentres els altres dos ho fan únicament a plantes senars. Òbviament la planta baixa és comuna en ambdós casos.
-
-- `Express`: Tots els ascensors arriben a totes les plantes, no obstant un dels ascensors és de capacitat reduïda (a la meitat dels demés) però triga menys entre trajectes.
+L’escenari que es planteja consta de 2 ascensors que pugen i baixem en un edifici de 10 plantes contan la planta baixa 1 ascensor es desplaça entre les plantes parelles i l’altre entre les plantes senars. Evidentment la planta baixa és comuna en els dos casos. Volem observar com es comporta aquest model transportant persones.
 
 ## Suposicions
 
-A partir de la definició anterior, nosaltres hem volgut suposar en quina situació podria donar-se el cas d’un sistema així. La raó d’això és conèixer ben bé l’entorn de la simulació per tal de que la implementació final s’ajusti el màxim possible a un cas real.
-Així doncs, el nostre model serà el d’un edifici d’oficines on els treballadors hi van a fer la seva jornada laboral, i després se n'en tornem a casa.
+Partint de la definició anterior, hem volgut donar un context on es podria aplicar un sistema com el esmentat. El motiu és donar una base al nostre model per establir el cas d’ús.
+
+Per tant hem decidit que el context serà el d’un edifici d’oficines amb la gent realitzant la seva jornada laboral.
 
 ## Memoria
 
@@ -22,7 +20,5 @@ Per entendre en detall com s'ha definit el sistema, així com tots els elements 
 
 ## Equip
 
-- [Hèctor Morales Carnicé](https://github.com/HectorMRC)
-- [Joan Pont Martoris](https://github.com/)
-
-##### Qualificació obtinguda: 10
+- [Marc Almirall Bertran](https://github.com/Bakanalmi)
+- [Joan Almagro Castañer](https://github.com/joanalmagro)

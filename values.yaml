@@ -1,14 +1,14 @@
     seed: 12345 # random seed
 
     time:
-        from: 7                 # hora entera a la que obre l'edifici
-        to: 20                  # hora entera a la que tanca l'edifici
+        from: 7                 # hora a la que obre l'edifici
+        to: 20                  # hora a la que tanca l'edifici
         work: 8                 # temps en hores d'una jornada laboral
-        metrics_cycle: 900
+        metrics_cycle: 900      # cada quan s'executa el codi de les mètriques
 
     # Sobre com es l'entorn on simular la/les estrategia/es
     environment:
-        cap_building: 1000       # capacitat de persones per planta
+        cap_building: 1000      # capacitat de persones per planta
         n_floors: 10            # número de pisos
         stairs: True            # si la gent pot utilitzar les escales
 
@@ -16,12 +16,6 @@
     elevators:
         capacity: 8             # capacitat d'un ascensor estandard
         velocity: 10            # temps en segons que triga un ascensor normal entre dues plantes consecutives
-
-    arrival:
-        loc: 10                 # mitja d'arribades en un instant de temps
-        scale: 5                # variança en les arribades
-        upper: 300              # temps en segons maxim entre arribades
-        lower: 60               # temps en segons minim entre arribades
 
     # Sobre com son les escales
     stairs:
