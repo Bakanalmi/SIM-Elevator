@@ -18,7 +18,6 @@ class Elevator:
         self.state = State.IDLE                                 # Estats de l'ascensor
         self.downCalls = []                                     # Pisos que han cridat a l'ascensor per baixar
         self.upCalls = None                                     # Si algú ha cridat a l'ascensor des de la planta baixa per pujar
-        self.up = False                                         # Ascensor en sentit de pujada
 
     def setUp(self, floors):
         # Inicialitzem el valor dels pisos als que pot anar l'ascensor
@@ -33,14 +32,12 @@ class Elevator:
             self.scheduler.afegirEsdeveniment(Event(floor, self.scheduler.currentTime, EventType.GetPeopleInElevator, self))
         elif self.currentFloor < floor.floor:
             # Si l'ascensor està en estat IDLE i está en una planta inferior quan el criden haurà de canviar de planta
-            self.state = State.UP
-            self.up = True
+            self.state = State.MOVEMENT
             time = self.scheduler.currentTime + (floor.floor - self.currentFloor) * self.velocity
             self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, floor))
         else:
             # Si l'ascensor està en estat IDLE i está en una planta superior quan el criden haurà de canviar de planta
-            self.state = State.DOWN
-            self.up = False
+            self.state = State.MOVEMENT
             time = self.scheduler.currentTime + (self.currentFloor - floor.floor) * self.velocity
             self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, floor))
 
@@ -58,8 +55,7 @@ class Elevator:
             self.downCalls.sort(reverse=True)
             firstStop = self.downCalls.pop(0)
             time = self.scheduler.currentTime
-            self.state = State.DOWN
-            self.up = False
+            self.state = State.MOVEMENT
             if firstStop > self.currentFloor:
                 # Primer anirá a buscar la planta més alta
                 time += (firstStop - self.currentFloor) * self.velocity
@@ -81,11 +77,10 @@ class Elevator:
                 self.scheduler.afegirEsdeveniment(Event(self.floors[self.upCalls], self.scheduler.currentTime, EventType.GetPeopleInElevator, self))
             else:
                 # En cas de no estar a la planta que toca canvia de planta
-                self.state = State.DOWN
+                self.state = State.MOVEMENT
                 time = self.scheduler.currentTime + self.currentFloor * self.velocity
                 self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, self.floors[self.upCalls]))
             self.upCalls = None
-            self.up = True
         else:
             # Si ningú necessita l'ascensor aquest es posa en estat de repos
             self.state = State.IDLE
@@ -98,13 +93,12 @@ class Elevator:
             if self.currentFloor > floor.floor:
                 # L'ascensor baixa per anar a buscar el pis
                 self.up = False
-                self.state = State.DOWN
+                self.state = State.MOVEMENT
                 time = self.scheduler.currentTime + (self.currentFloor - floor.floor) * self.velocity
                 self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, floor))
             else:
                 # L'ascensor puja per anar a buscar el pis
-                self.up = True
-                self.state = State.UP
+                self.state = State.MOVEMENT
                 time = self.scheduler.currentTime + (floor.floor - self.currentFloor) * self.velocity
                 self.scheduler.afegirEsdeveniment(Event(self, time, EventType.ChangeFloor, floor))
 

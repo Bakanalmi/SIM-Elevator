@@ -3,9 +3,8 @@ from enum import Enum
 
 class State(Enum):
     IDLE = 1
-    UP = 2
-    DOWN = 3
-    TRANSFER = 4
+    MOVEMENT = 2
+    TRANSFER = 3
 
 
 class EventType(Enum):
