@@ -1,6 +1,5 @@
 import Scheduler
 from util import parser
-import sys
 
 
 class Main:
