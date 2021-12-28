@@ -10,6 +10,7 @@
     environment:
         cap_building: 20        # capacitat de persones per planta
         n_floors: 10            # número de pisos
+        stairs: True            # si la gent pot utilitzar les escales
 
     # Sobre com son els ascensors
     elevators:

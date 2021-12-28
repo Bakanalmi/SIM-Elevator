@@ -22,6 +22,7 @@ class EventType(Enum):
     EnterBuilding = 12
     DeletePerson = 13
     ChangeFloor = 14
+    OutOfTheBuilding = 15
 
 
 class Colors:

@@ -24,10 +24,18 @@ class Floor:
     def set_stairs(self, stairs):
         self.stairs = stairs
 
+    def getPeopleFromStairs(self, person):
+        person.currentFloor = self.floor
+        self.stairs.peopleIn.remove(person)
+        self.peopleWorking.append(person)
+        workingTime = self.scheduler.currentTime + self.workingTime * 3600
+        self.scheduler.afegirEsdeveniment(Event(self, workingTime, EventType.FinishWorking, person))
+
     def finishWorking(self, person):
         # La persona acaba la seva jornada laboral
         print(Colors.OKGREEN, '[%d]\tToken %d finish working' % (self.scheduler.currentTime, person.id), Colors.ENDC)
         self.peopleWorking.remove(person)
+        person.dest = 0
         if person.walker:
             # Si la persona li agrada anara per les escales va a buscar les escales
             self.scheduler.afegirEsdeveniment(Event(self.stairs, self.scheduler.currentTime, EventType.GetStairs, person))
@@ -103,6 +111,7 @@ class Floor:
             # Si arriben a la planta baixa será per marxar a casa
             elevator.selectedFloors[self.floor] = False
             for person in elevator.peopleIn:
+                person.currentFloor = self.floor
                 peopleOut.append(person)
                 self.scheduler.afegirEsdeveniment(Event(self.home, self.scheduler.currentTime, EventType.DeletePerson, person))
         else:
@@ -112,6 +121,7 @@ class Floor:
             for person in elevator.peopleIn:
                 if person.dest == self.floor:
                     print(Colors.OKGREEN, '[%d]\tToken %d starts working' % (self.scheduler.currentTime, person.id), Colors.ENDC)
+                    person.currentFloor = self.floor
                     self.peopleWorking.append(person)
                     peopleOut.append(person)
                     workingTime = self.scheduler.currentTime + self.workingTime * 3600
@@ -123,9 +133,20 @@ class Floor:
             # Si l'ascensor està buit canviarà el seu estat
             self.scheduler.afegirEsdeveniment(Event(elevator, self.scheduler.currentTime, EventType.Empty, None))
 
+    def getOutOfTheStairs(self, person):
+        person.currentFloor = self.floor
+        self.stairs.peopleIn.remove(person)
+        self.scheduler.afegirEsdeveniment(Event(self.home, self.scheduler.currentTime, EventType.DeletePerson, person))
+
     def tractarEsdeveniment(self, event):
         if event.type == EventType.GetPeopleOutElevator:
             self.peopleGetOutOfTheElevator(event.entitat)
+
+        elif event.type == EventType.OutOfTheBuilding:
+            self.getOutOfTheStairs(event.entitat)
+
+        elif event.type == EventType.StartWorking:
+            self.getPeopleFromStairs(event.entitat)
 
         elif event.type == EventType.FinishWorking:
             self.finishWorking(event.entitat)
