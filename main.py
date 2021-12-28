@@ -5,8 +5,6 @@ import sys
 
 class Main:
     values_path = './values.yaml'
-    if len(sys.argv) > 1:
-        values_path = sys.argv[1]
 
     def __init__(self):
         self.values = parser.load_simulation_values(self.values_path)

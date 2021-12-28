@@ -1,9 +1,6 @@
     seed: 12345 # random seed
 
-    # Interval ininterromput de simulació [ 0 <= hora < 24]
     time:
-        from: 7                 # hora entera a la que obre l'edifici
-        to: 20                  # hora entera a la que tanca l'edifici
         work: 8                 # temps en hores d'una jornada laboral
     
     # Sobre com es l'entorn on simular la/les estrategia/es
