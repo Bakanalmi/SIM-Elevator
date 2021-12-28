@@ -22,14 +22,14 @@ class Token:
 
     def newToken(self):
         if self.MAX > self.counter:
-            random.seed(self.counter)
-            howMany = math.ceil(random.normal(loc=self.loc, scale=self.scale, size=1))
+            random.seed(self.counter % 223)
+            howMany = random.randint(1, 5)
             for iterator in range(0, howMany):
                 person = Person.Person(self.values, self.counter)
                 print(Colors.WARNING, '[%d]\tToken %d has been generate' % (self.scheduler.currentTime, person.id), Colors.ENDC)
                 self.scheduler.afegirEsdeveniment(Event(self.entry, self.scheduler.currentTime, EventType.EnterBuilding, person))
                 self.counter += 1
-            time = self.scheduler.currentTime + math.ceil(random.uniform(self.upper, self.lower, size=1))
+            time = self.scheduler.currentTime + random.randint(10, 60)
             self.scheduler.afegirEsdeveniment(Event(self, time, EventType.GeneratePeople, None))
 
     def deleteToken(self, token):

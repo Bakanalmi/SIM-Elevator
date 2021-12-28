@@ -58,11 +58,11 @@ class Metrics:
         dashboard = self.figure.add_subplot(1, 1, 1)
         dashboard.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
 
-        arribades = self.figure.add_subplot(2, 2, 1)
+        arribades = self.figure.add_subplot(3, 1, 1)
 
-        ocupacio_global = self.figure.add_subplot(2, 2, 2)
+        ocupacio_global = self.figure.add_subplot(3, 1, 2)
 
-        esperes = self.figure.add_subplot(2, 1, 2)
+        esperes = self.figure.add_subplot(3, 1, 3)
 
         arribades.set_title('Ocupació pl. baixa')
         arribades.bar(self.gather_lapses, self.ocupation_floor[0])
