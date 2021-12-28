@@ -25,6 +25,8 @@ class Floor:
         self.stairs = stairs
 
     def getPeopleFromStairs(self, person):
+
+        print(Colors.OKGREEN, '[%d]\tToken %d starts working at floor %d' % (self.scheduler.currentTime, person.id, self.floor), Colors.ENDC)
         person.currentFloor = self.floor
         self.stairs.peopleIn.remove(person)
         self.peopleWorking.append(person)
@@ -120,7 +122,7 @@ class Floor:
             elevator.currentFloor = self.floor
             for person in elevator.peopleIn:
                 if person.dest == self.floor:
-                    print(Colors.OKGREEN, '[%d]\tToken %d starts working' % (self.scheduler.currentTime, person.id), Colors.ENDC)
+                    print(Colors.OKGREEN, '[%d]\tToken %d starts working at floor %d' % (self.scheduler.currentTime, person.id, self.floor), Colors.ENDC)
                     person.currentFloor = self.floor
                     self.peopleWorking.append(person)
                     peopleOut.append(person)
