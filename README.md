@@ -16,7 +16,7 @@ Per tant hem decidit que el context serà el d’un edifici d’oficines amb la 
 
 ## Memoria
 
-Per entendre en detall com s'ha definit el sistema, així com tots els elements que el conformen i les seves implementacions és recomanable donar un cop d'ull a la [memoria del projecte](./memoria.pdf)
+Per entendre en detall com s'ha definit el sistema, així com tots els elements que el conformen i les seves implementacions és recomanable donar un cop d'ull a la [memoria del projecte](./Memoria.pdf)
 
 ## Equip
 
